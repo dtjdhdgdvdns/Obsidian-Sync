@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+
+# Obsidian workspace files
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+
+# Plugin data that may contain device-specific or sensitive state
+.obsidian/plugins/*/data.json
+
+# Cursor position
+.obsidian/plugins/remember-cursor-position/cursor-positions.json
