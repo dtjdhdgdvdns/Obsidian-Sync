@@ -1,0 +1,200 @@
+/* ===== Obsidian Full Width Table with CSS ===== */
+/* Keep Obsidian Readable line length OFF */
+/* Original post: https://www.reddit.com/r/ObsidianMD/comments/1or3uta/obsidian_full_width_tables_css_with_constrained/ */
+
+
+/*  Default: narrow prose via .cm-sizer/.markdown-preview-sizer; full-bleed tables */
+:root{
+        --prose: 780px;   /* EDITABLE: readable column width */
+        --pad: 24px;      /* EDITABLE: consistent gutter for non-table content */
+        --summary-col-max: 600px; /* EDITABLE: max width for wide columns */
+        
+        --table-bleed: max(0px, calc(100vw - (var(--pad) * 2))); /* table width when full-bleed */
+        --table-shift: calc(50% - 50vw + var(--pad));            /* centers full-bleed tables */
+}
+
+
+/* ----- Shared layout for editor + reading view ----- */
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer){
+        max-width: var(--prose);
+        margin: 0 auto;
+        padding: 0 var(--pad);
+}
+
+
+/* ----- Full-bleed tables (markdown, Dataview, Sheets) ----- */
+/* Break tables out of the constrained column but keep the same outer gutter. */
+:is(.markdown-reading-view .markdown-preview-sizer, .markdown-source-view.mod-cm6 .cm-sizer) :is(table, .table-wrapper, table.table-editor){
+        display: block;
+        box-sizing: border-box;
+        width: var(--table-bleed);
+        margin-left: var(--table-shift);
+    margin-right: var(--table-shift);
+    max-width: none;
+    overflow-x: auto;
+}
+
+
+/* Ensure tables inside wrappers fill them */
+:is(.markdown-reading-view .markdown-preview-sizer, .markdown-source-view.mod-cm6 .cm-sizer) .table-wrapper > table{
+        width: 100%;
+        max-width: none;
+        margin: 0;
+}
+
+
+/* Cell wrapping so long text/links don't explode layout */
+:is(.markdown-reading-view, .markdown-source-view.mod-cm6) table :is(th, td){
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+}
+
+
+/* Optional clamp for verbose third column (e.g., One-Liner/Summary) */
+:is(.markdown-reading-view, .markdown-source-view.mod-cm6) table :is(th, td):nth-child(3){
+            max-width: var(--summary-col-max);
+}
+/* ----- Obsidian Sheets / table widget full-bleed overrides ----- */
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer) .cm-embed-block.cm-table-widget.markdown-rendered{
+        display: block;
+        box-sizing: border-box;
+        width: var(--table-bleed) !important;
+    max-width: none !important;
+    margin-left: var(--table-shift) !important;
+    margin-right: var(--table-shift) !important;
+    overflow-x: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+/* Within embed blocks, let the wrapper size to content but cap at viewport width. */
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer) .cm-embed-block.cm-table-widget.markdown-rendered .table-wrapper{
+        width: fit-content !important;
+        min-width: 0 !important;
+        max-width: var(--table-bleed) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow: visible !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer) .cm-embed-block.cm-table-widget.markdown-rendered .table-wrapper > table{
+        width: 100% !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+}
+
+
+/* ----- Responsive container-query overrides (if supported) ----- */
+/* ===== Obsidian Full Width Table with CSS ===== */
+/* Keep Obsidian Readable line length OFF */
+/* Original post: https://www.reddit.com/r/ObsidianMD/comments/1or3uta/obsidian_full_width_tables_css_with_constrained/ */
+
+
+/*  Default: narrow prose via .cm-sizer/.markdown-preview-sizer; full-bleed tables */
+:root{
+        --prose: 780px;   /* EDITABLE: readable column width */
+        --pad: 24px;      /* EDITABLE: consistent gutter for non-table content */
+        --summary-col-max: 600px; /* EDITABLE: max width for wide columns */
+        
+        --table-bleed: max(0px, calc(100vw - (var(--pad) * 2))); /* table width when full-bleed */
+        --table-shift: calc(50% - 50vw + var(--pad));            /* centers full-bleed tables */
+}
+
+
+/* ----- Shared layout for editor + reading view ----- */
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer){
+        max-width: var(--prose);
+        margin: 0 auto;
+        padding: 0 var(--pad);
+}
+
+
+/* ----- Full-bleed tables (markdown, Dataview, Sheets) ----- */
+/* Break tables out of the constrained column but keep the same outer gutter. */
+:is(.markdown-reading-view .markdown-preview-sizer, .markdown-source-view.mod-cm6 .cm-sizer) :is(table, .table-wrapper, table.table-editor){
+        display: block;
+        box-sizing: border-box;
+        width: var(--table-bleed);
+        margin-left: var(--table-shift);
+    margin-right: var(--table-shift);
+    max-width: none;
+    overflow-x: auto;
+}
+
+
+/* Ensure tables inside wrappers fill them */
+:is(.markdown-reading-view .markdown-preview-sizer, .markdown-source-view.mod-cm6 .cm-sizer) .table-wrapper > table{
+        width: 100%;
+        max-width: none;
+        margin: 0;
+}
+
+
+/* Cell wrapping so long text/links don't explode layout */
+:is(.markdown-reading-view, .markdown-source-view.mod-cm6) table :is(th, td){
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+}
+
+
+/* Optional clamp for verbose third column (e.g., One-Liner/Summary) */
+:is(.markdown-reading-view, .markdown-source-view.mod-cm6) table :is(th, td):nth-child(3){
+            max-width: var(--summary-col-max);
+}
+/* ----- Obsidian Sheets / table widget full-bleed overrides ----- */
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer) .cm-embed-block.cm-table-widget.markdown-rendered{
+        display: block;
+        box-sizing: border-box;
+        width: var(--table-bleed) !important;
+    max-width: none !important;
+    margin-left: var(--table-shift) !important;
+    margin-right: var(--table-shift) !important;
+    overflow-x: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+/* Within embed blocks, let the wrapper size to content but cap at viewport width. */
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer) .cm-embed-block.cm-table-widget.markdown-rendered .table-wrapper{
+        width: fit-content !important;
+        min-width: 0 !important;
+        max-width: var(--table-bleed) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    overflow: visible !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+
+:is(.markdown-source-view.mod-cm6 .cm-sizer, .markdown-reading-view .markdown-preview-sizer) .cm-embed-block.cm-table-widget.markdown-rendered .table-wrapper > table{
+        width: 100% !important;
+        max-width: 100% !important;
+        table-layout: fixed !important;
+}
+
+
+/* ----- Responsive container-query overrides (if supported) ----- */
+u/supports (width: 100cqw){
+:is(.markdown-reading-view, .markdown-source-view.mod-cm6){
+            container-type: inline-size;
+            --table-bleed: max(0px, calc(100cqw - (var(--pad) * 2)));
+            --table-shift: calc((100% - var(--table-bleed)) / 2);
+    }
+}
+
+
+ (width: 100cqw){
+:is(.markdown-reading-view, .markdown-source-view.mod-cm6){
+            container-type: inline-size;
+            --table-bleed: max(0px, calc(100cqw - (var(--pad) * 2)));
+            --table-shift: calc((100% - var(--table-bleed)) / 2);
+    }
+}
