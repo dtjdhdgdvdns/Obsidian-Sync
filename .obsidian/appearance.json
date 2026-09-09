@@ -2,5 +2,8 @@
   "interfaceFontFamily": "Pretendard JP",
   "textFontFamily": "Pretendard JP",
   "baseFontSize": 17,
-  "cssTheme": "Minimal"
+  "cssTheme": "Minimal",
+  "enabledCssSnippets": [
+    "customStyles"
+  ]
 }
