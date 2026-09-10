@@ -6,5 +6,8 @@
   "enabledCssSnippets": [
     "customStyles",
     "dashboard-wide"
-  ]
+  ],
+  "showRibbon": true,
+  "showViewHeader": true,
+  "nativeMenus": false
 }
