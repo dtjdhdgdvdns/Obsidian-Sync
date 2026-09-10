@@ -202,9 +202,3 @@ topBar.querySelector("#next-year")
 
     await renderCurrentCalendar();
 });
-
-
-
-
-
-
