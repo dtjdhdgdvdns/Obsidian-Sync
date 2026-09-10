@@ -39,15 +39,40 @@ obsidianUIMode: preview
 ```dataviewjs
 // 현재 선택 상태 기억
 window.currentTrackerType = window.currentTrackerType || "daily";
+window.currentYear = window.currentYear || new Date().getFullYear();
 
 // 상단 선택 UI
 const topBar = document.createElement("div");
 topBar.style.marginBottom = "20px";
 
 topBar.innerHTML = `
+<div style="
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:10px;
+">
+
+<button id="prev-year">◀</button>
+
+<span id="year-label"
+style="
+font-size:18px;
+font-weight:bold;
+min-width:60px;
+text-align:center;
+">
+${window.currentYear}
+</span>
+
+<button id="next-year">▶</button>
+
+</div>
+
 <label style="font-weight:bold; margin-right:10px;">
 🔍 보기 선택:
 </label>
+
 <select id="tracker-select"
 style="padding:5px 10px; border-radius:5px;">
     <option value="daily"
@@ -96,11 +121,10 @@ async function renderCurrentCalendar() {
                 page.date ||
                 page.file.frontmatter?.date;
 
-            if (dateVal) {
+            if (
                 data.entries.push({
                     date: window.moment(dateVal).format("YYYY-MM-DD"),
                     intensity: 1,
-                   content: page.file.link
                 });
             }
         }
@@ -154,20 +178,3 @@ selectBox.addEventListener("change", async (e) => {
 
 
 
-
-
-
-
-
-
-
-const testData = {
-    entries: [
-        {
-            date: "2026-09-10",
-            intensity: 1
-        }
-    ]
-};
-
-renderHeatmapCalendar(this.container, testData);
