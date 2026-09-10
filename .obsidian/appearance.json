@@ -4,6 +4,7 @@
   "baseFontSize": 17,
   "cssTheme": "Minimal",
   "enabledCssSnippets": [
-    "customStyles"
+    "customStyles",
+    "dashboard-wide"
   ]
 }
