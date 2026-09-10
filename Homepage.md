@@ -33,50 +33,88 @@ obsidianUIMode: preview
 
 
 
+
+---
+obsidianUIMode: preview
+---
+
+# 📊 통합 기록 대시보드
+
 ```dataviewjs
-// 1. 일상 기록 잔디 달력
-dv.span("**📝 일상 기록 달력**")
+// 1. 현재 선택 상태 기억 (기본값: 일상)
+window.currentTrackerType = window.currentTrackerType || "daily";
 
-const dailyData = {
-    year: 2026, // 연도 (필요시 수정)
-    colors: {
-        green: ["#b5f5ec", "#87e8de", "#5cdbd3", "#36cfc9", "#13c2c2"]
-    },
-    entries: []
+// 2. 상단 선택 박스 만들기
+const container = document.createElement("div");
+container.style.marginBottom = "20px";
+container.innerHTML = `
+    <label style="font-weight: bold; margin-right: 10px;">🔍 보기 선택:</label>
+    <select id="tracker-select" style="padding: 5px 10px; border-radius: 5px; font-size: 14px; cursor: pointer;">
+        <option value="daily" ${window.currentTrackerType === "daily" ? "selected" : ""}>📝 일상 기록 달력</option>
+        <option value="dream" ${window.currentTrackerType === "dream" ? "selected" : ""}>💭 꿈 기록 달력</option>
+    </select>
+`;
+this.container.appendChild(container);
+
+// 3. 달력이 들어갈 영역 만들기 (세로 고정 및 오버플로우 방지)
+const renderArea = document.createElement("div");
+renderArea.style.width = "100%";
+renderArea.style.overflowX = "auto";
+this.container.appendChild(renderArea);
+
+// 4. 달력 렌더링 함수
+async function renderSelectedCalendar() {
+    renderArea.innerHTML = ""; // 이전 달력 완전 초기화
+    
+    await new Promise(resolve => setTimeout(resolve, 50));
+
+    const subContainer = document.createElement("div");
+    // 핵심: 달력 컨테이너 자체의 세로 늘어짐 방지 스타일 적용
+    subContainer.style.maxHeight = "220px";
+    subContainer.style.overflow = "hidden";
+    renderArea.appendChild(subContainer);
+
+    let data = {
+        entries: []
+    };
+
+    if (window.currentTrackerType === "daily") {
+        data.colors = { green: ["#b5f5ec", "#87e8de", "#5cdbd3", "#36cfc9", "#13c2c2"] };
+        for(let page of dv.pages('#daily')){
+            let dateVal = page.date || page.file.frontmatter.date;
+            if (dateVal) {
+                let dateStr = String(dateVal).substring(0, 10);
+                data.entries.push({
+                    date: dateStr,
+                    intensity: 1,
+                    content: page.file.link 
+                });
+            }
+        }
+    } else {
+        data.colors = { purple: ["#efdbff", "#d3adf7", "#b37feb", "#9254de", "#722ed1"] };
+        for(let page of dv.pages('#dream')){
+            let dateVal = page.date || page.file.frontmatter.date;
+            if (dateVal) {
+                let dateStr = String(dateVal).substring(0, 10);
+                data.entries.push({
+                    date: dateStr,
+                    intensity: 1,
+                    content: page.file.link
+                });
+            }
+        }
+    }
+
+    renderHeatmapCalendar(subContainer, data);
 }
 
-// #daily 태그가 있는 노트를 찾아 잔디 데이터에 추가
-for(let page of dv.pages('#daily')){
-    let dateStr = page.file.name.substring(0, 10); // 파일 이름에서 날짜 추출
-    dailyData.entries.push({
-        date: dateStr,
-        intensity: 1,
-        content: await dv.span(`[](${page.file.name})`), // 마우스 올리면 미리보기 표시
-    })       
-}
+// 5. 최초 실행
+renderSelectedCalendar();
 
-renderHeatmapCalendar(this.container, dailyData)
-
-
-// 2. 꿈 기록 잔디 달력
-dv.span("<br><br>**💭 꿈 기록 달력**")
-
-const dreamData = {
-    year: 2026, // 연도 (필요시 수정)
-    colors: {
-        purple: ["#efdbff", "#d3adf7", "#b37feb", "#9254de", "#722ed1"]
-    },
-    entries: []
-}
-
-// #dream 태그가 있는 노트를 찾아 잔디 데이터에 추가
-for(let page of dv.pages('#dream')){
-    let dateStr = page.file.name.substring(0, 10); // 파일 이름에서 날짜 추출
-    dreamData.entries.push({
-        date: dateStr,
-        intensity: 1,
-        content: await dv.span(`[](${page.file.name})`), // 마우스 올리면 미리보기 표시
-    })       
-}
-
-renderHeatmapCalendar(this.container, dreamData)
+// 6. 드롭다운 변경할 때 실행
+const selectBox = container.querySelector("#tracker-select");
+selectBox.addEventListener("change", (e) => {
+    window.currentTrackerType = e.target.value;
+    renderSelectedCalendar();
+});
