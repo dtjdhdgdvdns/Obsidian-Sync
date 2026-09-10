@@ -1,6 +1,7 @@
 ---
 cssclasses:
   - notion-dashboard
+obsidianUIMode: preview
 ---
 
 # 👋 환영합니다, 내 공간
