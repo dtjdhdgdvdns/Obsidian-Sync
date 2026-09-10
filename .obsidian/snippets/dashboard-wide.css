@@ -1,3 +1,10 @@
 .dashboard-wide {
-    --file-line-width: 2000px;
+    --file-line-width: 2000px !important;
+}
+
+.dashboard-wide .markdown-preview-view,
+.dashboard-wide .markdown-source-view,
+.dashboard-wide .markdown-reading-view {
+    max-width: 100% !important;
+    width: 100% !important;
 }
