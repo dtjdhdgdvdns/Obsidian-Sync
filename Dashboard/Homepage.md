@@ -48,12 +48,16 @@ const leftContent = [
     "- 📐 [[수학 노트]]",
     "- 🎵 [[플레이리스트]]",
     "",
-    "![[Waguri kaoruko.jpg|250]]",
+    "![[Waguri kaoruko.jpg|1000]]",
+    
+    
+    
+    
+'<div style="margin-top: 40px; text-align: center;">', 
+'<img src="' + app.vault.adapter.getResourcePath('Waguri kaoruko.jpg') + 
+'" style="width: 100%; max-width: 250px; border-radius: 8px;" />', '</div>', 
+    
     "",
-    
-    
-    
-    
     myIframe
 ].join("\n");
 
