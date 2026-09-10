@@ -1,6 +1,6 @@
 <% await tp.file.rename(tp.date.now("YYYY.MM.DD") + " " + await tp.system.prompt("오늘 꿈의 제목을 한 줄로 적어주세요")) -%>
 ---
-date: <% tp.date.now("YYYY.MM.DD") %>
+date: <% tp.date.now("YYYY-MM-DD") %>
 tags:
   - dream
 lucid_dream: false
