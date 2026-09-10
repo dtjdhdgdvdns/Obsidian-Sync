@@ -118,8 +118,8 @@ async function renderCurrentCalendar() {
         for (let page of dv.pages("#daily")) {
 
             let dateVal =
-                page.date ||
-                page.file.frontmatter?.date;
+                page.file.frontmatter?.date ||
+                page.date;
 
             if (
             dateVal &&
@@ -147,8 +147,8 @@ async function renderCurrentCalendar() {
         for (let page of dv.pages("#dream")) {
 
             let dateVal =
-                page.date ||
-                page.file.frontmatter?.date;
+                page.file.frontmatter?.date ||
+                page.date
 
             if (
             dateVal &&
