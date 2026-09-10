@@ -6,7 +6,6 @@
   "tag-wrangler",
   "editing-toolbar",
   "obsidian-icon-folder",
-  "obsidian-style-settings",
   "obsidian-git",
   "periodic-notes",
   "calendar",
@@ -16,5 +15,6 @@
   "homepage",
   "obsidian-view-mode-by-frontmatter",
   "heatmap-tracker",
-  "obsidian-minimal-settings"
+  "obsidian-minimal-settings",
+  "obsidian-tasks-plugin"
 ]
