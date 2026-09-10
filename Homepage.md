@@ -31,8 +31,6 @@ obsidianUIMode: preview
 
 
 ---
-obsidianUIMode: preview
----
 
 # 📊 통합 기록 대시보드
 
