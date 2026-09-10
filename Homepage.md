@@ -37,91 +37,116 @@ obsidianUIMode: preview
 # 📊 통합 기록 대시보드
 
 ```dataviewjs
-// 1. 현재 선택 상태 기억 (기본값: 일상)
+// 현재 선택 상태 기억
 window.currentTrackerType = window.currentTrackerType || "daily";
 
-// 2. 상단 선택 박스 만들기
-const container = document.createElement("div");
-container.style.marginBottom = "20px";
-container.innerHTML = `
-    <label style="font-weight: bold; margin-right: 10px;">🔍 보기 선택:</label>
-    <select id="tracker-select" style="padding: 5px 10px; border-radius: 5px; font-size: 14px; cursor: pointer;">
-        <option value="daily" ${window.currentTrackerType === "daily" ? "selected" : ""}>📝 일상 기록 달력</option>
-        <option value="dream" ${window.currentTrackerType === "dream" ? "selected" : ""}>💭 꿈 기록 달력</option>
-    </select>
+// 상단 선택 UI
+const topBar = document.createElement("div");
+topBar.style.marginBottom = "20px";
+
+topBar.innerHTML = `
+<label style="font-weight:bold; margin-right:10px;">
+🔍 보기 선택:
+</label>
+<select id="tracker-select"
+style="padding:5px 10px; border-radius:5px;">
+    <option value="daily"
+        ${window.currentTrackerType === "daily" ? "selected" : ""}>
+        📝 일상 기록 달력
+    </option>
+    <option value="dream"
+        ${window.currentTrackerType === "dream" ? "selected" : ""}>
+        💭 꿈 기록 달력
+    </option>
+</select>
 `;
-this.container.appendChild(container);
 
-// 3. 일상용과 꿈용 컨테이너 생성 
-const dailyWrapper = document.createElement("div"); 
-const dreamWrapper = document.createElement("div");
+this.container.appendChild(topBar);
 
-// 폭 강제 지정 
-dailyWrapper.style.width = "100%"; 
-dreamWrapper.style.width = "100%";
+// 달력 표시 영역
+const calendarWrapper = document.createElement("div");
+calendarWrapper.style.width = "100%";
+this.container.appendChild(calendarWrapper);
 
-// 처음에는 일상만 표시
-dailyWrapper.style.display = "block"; 
-dreamWrapper.style.display = "none";
+// 현재 선택된 달력 렌더링
+async function renderCurrentCalendar() {
 
-this.container.appendChild(dailyWrapper); this.container.appendChild(dreamWrapper);
+    // 기존 달력 제거
+    calendarWrapper.innerHTML = "";
 
-// 4. 데이터 로드 및 렌더링 함수 (최초 1회만 실행되어 완벽하게 고정됨)
-async function initCalendars() {
-    // --- (1) 일상 달력 데이터 준비 ---
-    let dailyData = { entries: [] };
-    dailyData.colors = { green: ["#b5f5ec", "#87e8de", "#5cdbd3", "#36cfc9", "#13c2c2"] };
-    
-    for(let page of dv.pages('#daily')){
-        let dateVal = page.date || page.file.frontmatter.date;
-        if (dateVal) {
-            dailyData.entries.push({
-                date: String(dateVal).substring(0, 10),
-                intensity: 1,
-                content: page.file.link
-            });
-        }
-    }
-   renderHeatmapCalendar(dailyWrapper, dailyData);
+    let data = {
+        entries: []
+    };
 
-    // --- (2) 꿈 달력 데이터 준비 ---
-    let dreamData = { entries: [] };
-    dreamData.colors = { purple: ["#efdbff", "#d3adf7", "#b37feb", "#9254de", "#722ed1"] };
-    
-    for(let page of dv.pages('#dream')){
-        let dateVal = page.date || page.file.frontmatter.date;
-        if (dateVal) {
-            dreamData.entries.push({
-                date: String(dateVal).substring(0, 10),
-                intensity: 1,
-                content: page.file.link
-            });
-        }
-    }
-    renderHeatmapCalendar(dreamWrapper, dreamData);
-
-    // 초기 화면 상태 반영
-    updateDisplay();
-}
-
-// 5. 화면 표시 상태를 바꿔주는 함수 (지우고 다시 그리지 않고 숨기기/보이기만 함)
-function updateDisplay() {
     if (window.currentTrackerType === "daily") {
-        dailyWrapper.style.display = "block";
-        dreamWrapper.style.display = "none";
+
+        data.colors = {
+            green: [
+                "#b5f5ec",
+                "#87e8de",
+                "#5cdbd3",
+                "#36cfc9",
+                "#13c2c2"
+            ]
+        };
+
+        for (let page of dv.pages("#daily")) {
+
+            let dateVal =
+                page.date ||
+                page.file.frontmatter?.date;
+
+            if (dateVal) {
+                data.entries.push({
+                    date: window.moment(dateVal).format("YYYY-MM-DD"),
+                    intensity: 1,
+                   content: page.file.link
+                });
+            }
+        }
+
     } else {
-        dailyWrapper.style.display = "none";
-        dreamWrapper.style.display = "block";
+
+        data.colors = {
+            purple: [
+                "#efdbff",
+                "#d3adf7",
+                "#b37feb",
+                "#9254de",
+                "#722ed1"
+            ]
+        };
+
+        for (let page of dv.pages("#dream")) {
+
+            let dateVal =
+                page.date ||
+                page.file.frontmatter?.date;
+
+            if (dateVal) {
+                data.entries.push({
+                    date: String(dateVal).substring(0, 10),
+                    intensity: 1,
+                    content: page.file.link
+                });
+            }
+        }
     }
+
+    renderHeatmapCalendar(calendarWrapper, data);
 }
 
-// 6. 실행 및 이벤트 연결
-initCalendars();
+// 최초 렌더링
+await renderCurrentCalendar();
 
-const selectBox = container.querySelector("#tracker-select");
-selectBox.addEventListener("change", (e) => {
+// 토글 변경
+const selectBox = topBar.querySelector("#tracker-select");
+
+selectBox.addEventListener("change", async (e) => {
+
     window.currentTrackerType = e.target.value;
-    updateDisplay();
+
+    await renderCurrentCalendar();
 });
 
 
@@ -133,18 +158,16 @@ selectBox.addEventListener("change", (e) => {
 
 
 
-const calendarData = {
-    entries: []
-}
 
-for(let page of dv.pages('#daily')){
-    let dateVal = page.date || page.file.frontmatter.date;
-    if(dateVal){
-        calendarData.entries.push({
-            date: String(dateVal).substring(0,10),
+
+
+const testData = {
+    entries: [
+        {
+            date: "2026-09-10",
             intensity: 1
-        });
-    }
-}
+        }
+    ]
+};
 
-renderHeatmapCalendar(this.container, calendarData);
+renderHeatmapCalendar(this.container, testData);
