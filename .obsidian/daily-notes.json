@@ -1,5 +1,5 @@
 {
   "format": "YYYY.MM.DD",
   "folder": "Diary/Diary",
-  "template": "Template/Diary Template.md"
+  "template": "Templates/Diary template.md"
 }
