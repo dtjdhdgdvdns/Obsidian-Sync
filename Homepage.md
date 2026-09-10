@@ -94,6 +94,7 @@ calendarWrapper.style.width = "100%";
 this.container.appendChild(calendarWrapper);
 
 // 현재 선택된 달력 렌더링
+
 async function renderCurrentCalendar() {
 
     // 기존 달력 제거
