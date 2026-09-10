@@ -52,12 +52,19 @@ container.innerHTML = `
 `;
 this.container.appendChild(container);
 
-// 3. 일상용과 꿈용 컨테이너를 각각 독립적으로 생성
-const dailyWrapper = document.createElement("div");
+// 3. 일상용과 꿈용 컨테이너 생성 
+const dailyWrapper = document.createElement("div"); 
 const dreamWrapper = document.createElement("div");
 
-this.container.appendChild(dailyWrapper);
-this.container.appendChild(dreamWrapper);
+// 폭 강제 지정 
+dailyWrapper.style.width = "100%"; 
+dreamWrapper.style.width = "100%";
+
+// 처음에는 일상만 표시
+dailyWrapper.style.display = "block"; 
+dreamWrapper.style.display = "none";
+
+this.container.appendChild(dailyWrapper); this.container.appendChild(dreamWrapper);
 
 // 4. 데이터 로드 및 렌더링 함수 (최초 1회만 실행되어 완벽하게 고정됨)
 async function initCalendars() {
@@ -75,7 +82,7 @@ async function initCalendars() {
             });
         }
     }
-    renderHeatmapCalendar(dailyWrapper, dailyData);
+   renderHeatmapCalendar(dailyWrapper, dailyData);
 
     // --- (2) 꿈 달력 데이터 준비 ---
     let dreamData = { entries: [] };
@@ -116,3 +123,28 @@ selectBox.addEventListener("change", (e) => {
     window.currentTrackerType = e.target.value;
     updateDisplay();
 });
+
+
+
+
+
+
+
+
+
+
+const calendarData = {
+    entries: []
+}
+
+for(let page of dv.pages('#daily')){
+    let dateVal = page.date || page.file.frontmatter.date;
+    if(dateVal){
+        calendarData.entries.push({
+            date: String(dateVal).substring(0,10),
+            intensity: 1
+        });
+    }
+}
+
+renderHeatmapCalendar(this.container, calendarData);
