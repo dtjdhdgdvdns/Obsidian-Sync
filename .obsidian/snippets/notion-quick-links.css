@@ -1,4 +1,13 @@
-/* 속성에 'notion-dashboard'가 있는 노트에서만 작동 */
+/* 1. 대시보드 내의 모든 3단계 헤더(quick links, today 등) 폰트 및 스타일 변경 */
+.notion-dashboard h3 {
+    font-family: 'Georgia', 'Times New Roman', 'Apple Myungjo', 'Batang', '바탕', 'Noto Serif KR', serif !important;
+    font-size: 1.4rem !important;
+    letter-spacing: 0.1em !important; /* 노션 특유의 글자 간격 넓은 감성 */
+    font-weight: 600 !important;
+    margin-bottom: 16px !important;
+}
+
+/* 2. quick links 리스트 불릿(점) 제거 및 여백 설정 */
 .notion-dashboard .notion-quick-links ul {
     list-style: none !important;
     padding-left: 0 !important;
@@ -8,19 +17,19 @@
     gap: 14px !important;
 }
 
-.notion-dashboard .notion-quick-links li {
-    list-style: none !important;
-    display: flex !important;
-    align-items: center !important;
-    font-family: 'Georgia', 'Times New Roman', serif !important;
-    font-size: 1.12rem !important;
-}
-
+/* 리스트 점 강제 숨김 */
 .notion-dashboard .notion-quick-links li::marker,
 .notion-dashboard .notion-quick-links .list-bullet {
     display: none !important;
     content: "" !important;
     color: transparent !important;
+}
+
+/* 3. 리스트 내부 정렬 및 링크 밑줄 (폰트는 옵시디언 기본 테마 폰트를 따름) */
+.notion-dashboard .notion-quick-links li {
+    list-style: none !important;
+    display: flex !important;
+    align-items: center !important;
 }
 
 .notion-dashboard .notion-quick-links a.internal-link {
