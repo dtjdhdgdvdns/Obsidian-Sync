@@ -30,10 +30,6 @@ obsidianUIMode: preview
 - [ ] 1일 1커밋 또는 공부 계획 체크
 
 
-
-
-
-
 ---
 obsidianUIMode: preview
 ---
@@ -56,65 +52,67 @@ container.innerHTML = `
 `;
 this.container.appendChild(container);
 
-// 3. 달력이 들어갈 영역 만들기 (세로 고정 및 오버플로우 방지)
-const renderArea = document.createElement("div");
-renderArea.style.width = "100%";
-renderArea.style.overflowX = "auto";
-this.container.appendChild(renderArea);
+// 3. 일상용과 꿈용 컨테이너를 각각 독립적으로 생성
+const dailyWrapper = document.createElement("div");
+const dreamWrapper = document.createElement("div");
 
-// 4. 달력 렌더링 함수
-async function renderSelectedCalendar() {
-    renderArea.innerHTML = ""; // 이전 달력 완전 초기화
+this.container.appendChild(dailyWrapper);
+this.container.appendChild(dreamWrapper);
+
+// 4. 데이터 로드 및 렌더링 함수 (최초 1회만 실행되어 완벽하게 고정됨)
+async function initCalendars() {
+    // --- (1) 일상 달력 데이터 준비 ---
+    let dailyData = { entries: [] };
+    dailyData.colors = { green: ["#b5f5ec", "#87e8de", "#5cdbd3", "#36cfc9", "#13c2c2"] };
     
-    await new Promise(resolve => setTimeout(resolve, 50));
-
-    const subContainer = document.createElement("div");
-    // 핵심: 달력 컨테이너 자체의 세로 늘어짐 방지 스타일 적용
-    subContainer.style.maxHeight = "220px";
-    subContainer.style.overflow = "hidden";
-    renderArea.appendChild(subContainer);
-
-    let data = {
-        entries: []
-    };
-
-    if (window.currentTrackerType === "daily") {
-        data.colors = { green: ["#b5f5ec", "#87e8de", "#5cdbd3", "#36cfc9", "#13c2c2"] };
-        for(let page of dv.pages('#daily')){
-            let dateVal = page.date || page.file.frontmatter.date;
-            if (dateVal) {
-                let dateStr = String(dateVal).substring(0, 10);
-                data.entries.push({
-                    date: dateStr,
-                    intensity: 1,
-                    content: page.file.link 
-                });
-            }
-        }
-    } else {
-        data.colors = { purple: ["#efdbff", "#d3adf7", "#b37feb", "#9254de", "#722ed1"] };
-        for(let page of dv.pages('#dream')){
-            let dateVal = page.date || page.file.frontmatter.date;
-            if (dateVal) {
-                let dateStr = String(dateVal).substring(0, 10);
-                data.entries.push({
-                    date: dateStr,
-                    intensity: 1,
-                    content: page.file.link
-                });
-            }
+    for(let page of dv.pages('#daily')){
+        let dateVal = page.date || page.file.frontmatter.date;
+        if (dateVal) {
+            dailyData.entries.push({
+                date: String(dateVal).substring(0, 10),
+                intensity: 1,
+                content: page.file.link
+            });
         }
     }
+    renderHeatmapCalendar(dailyWrapper, dailyData);
 
-    renderHeatmapCalendar(subContainer, data);
+    // --- (2) 꿈 달력 데이터 준비 ---
+    let dreamData = { entries: [] };
+    dreamData.colors = { purple: ["#efdbff", "#d3adf7", "#b37feb", "#9254de", "#722ed1"] };
+    
+    for(let page of dv.pages('#dream')){
+        let dateVal = page.date || page.file.frontmatter.date;
+        if (dateVal) {
+            dreamData.entries.push({
+                date: String(dateVal).substring(0, 10),
+                intensity: 1,
+                content: page.file.link
+            });
+        }
+    }
+    renderHeatmapCalendar(dreamWrapper, dreamData);
+
+    // 초기 화면 상태 반영
+    updateDisplay();
 }
 
-// 5. 최초 실행
-renderSelectedCalendar();
+// 5. 화면 표시 상태를 바꿔주는 함수 (지우고 다시 그리지 않고 숨기기/보이기만 함)
+function updateDisplay() {
+    if (window.currentTrackerType === "daily") {
+        dailyWrapper.style.display = "block";
+        dreamWrapper.style.display = "none";
+    } else {
+        dailyWrapper.style.display = "none";
+        dreamWrapper.style.display = "block";
+    }
+}
 
-// 6. 드롭다운 변경할 때 실행
+// 6. 실행 및 이벤트 연결
+initCalendars();
+
 const selectBox = container.querySelector("#tracker-select");
 selectBox.addEventListener("change", (e) => {
     window.currentTrackerType = e.target.value;
-    renderSelectedCalendar();
+    updateDisplay();
 });
