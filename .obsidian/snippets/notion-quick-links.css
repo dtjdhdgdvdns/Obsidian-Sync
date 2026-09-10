@@ -1,0 +1,37 @@
+/* 속성에 'notion-dashboard'가 있는 노트에서만 작동 */
+.notion-dashboard .notion-quick-links ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin-top: 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+}
+
+.notion-dashboard .notion-quick-links li {
+    list-style: none !important;
+    display: flex !important;
+    align-items: center !important;
+    font-family: 'Georgia', 'Times New Roman', serif !important;
+    font-size: 1.12rem !important;
+}
+
+.notion-dashboard .notion-quick-links li::marker,
+.notion-dashboard .notion-quick-links .list-bullet {
+    display: none !important;
+    content: "" !important;
+    color: transparent !important;
+}
+
+.notion-dashboard .notion-quick-links a.internal-link {
+    text-decoration: underline !important;
+    text-decoration-color: rgba(255, 255, 255, 0.35) !important;
+    text-underline-offset: 4px !important;
+    color: var(--text-normal) !important;
+    font-weight: 500 !important;
+}
+
+.notion-dashboard .notion-quick-links a.internal-link:hover {
+    text-decoration-color: var(--text-normal) !important;
+    opacity: 0.85;
+}

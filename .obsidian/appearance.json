@@ -5,7 +5,8 @@
   "cssTheme": "Minimal",
   "enabledCssSnippets": [
     "customStyles",
-    "dashboard-wide"
+    "dashboard-wide",
+    "notion-quick-links"
   ],
   "showRibbon": true,
   "showViewHeader": true,
