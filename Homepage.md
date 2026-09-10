@@ -53,7 +53,7 @@ gap:10px;
 margin-bottom:10px;
 ">
 
-<button id="prev-year">◀</button>
+<button id="prev-year" style=" padding:4px 10px; border-radius:6px; cursor:pointer; ">❮</button>
 
 <span id="year-label"
 style="
@@ -65,7 +65,7 @@ text-align:center;
 ${window.currentYear}
 </span>
 
-<button id="next-year">▶</button>
+<button id="next-year" style=" padding:4px 10px; border-radius:6px; cursor:pointer; ">❯</button>
 
 </div>
 
@@ -122,9 +122,12 @@ async function renderCurrentCalendar() {
                 page.file.frontmatter?.date;
 
             if (
-                data.entries.push({
-                    date: window.moment(dateVal).format("YYYY-MM-DD"),
-                    intensity: 1,
+            dateVal &&
+                window.moment(dateVal).year() === window.currentYear
+                ) {
+            data.entries.push({
+                date: window.moment(dateVal).format("YYYY-MM-DD"),
+                intensity: 1,
                 });
             }
         }
@@ -147,12 +150,14 @@ async function renderCurrentCalendar() {
                 page.date ||
                 page.file.frontmatter?.date;
 
-            if (dateVal) {
+            if (
+            dateVal &&
+                window.moment(dateVal).year() === window.currentYear
+                ) {
                 data.entries.push({
-                    date: String(dateVal).substring(0, 10),
-                    intensity: 1,
-                    content: page.file.link
-                });
+                   date: window.moment(dateVal).format("YYYY-MM-DD"),
+                    intensity: 1
+                    });
             }
         }
     }
@@ -175,6 +180,26 @@ selectBox.addEventListener("change", async (e) => {
 
 
 
+const yearLabel = topBar.querySelector("#year-label");
 
+topBar.querySelector("#prev-year")
+.addEventListener("click", async () => {
+
+    window.currentYear--;
+
+    yearLabel.textContent = window.currentYear;
+
+    await renderCurrentCalendar();
+});
+
+topBar.querySelector("#next-year")
+.addEventListener("click", async () => {
+
+    window.currentYear++;
+
+    yearLabel.textContent = window.currentYear;
+
+    await renderCurrentCalendar();
+});
 
 
