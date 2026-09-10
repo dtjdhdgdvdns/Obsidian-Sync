@@ -48,33 +48,36 @@ const leftContent = [
     "- 📐 [[수학 노트]]",
     "- 🎵 [[플레이리스트]]",
     "",
-    "---",
+    "![[Waguri kaoruko.jpg|250]]",
     "",
+    
+    
+    
+    
     myIframe
 ].join("\n");
 
-// 6. 우측 60% 영역 (today, this week, this month)
+// 6. 우측 60% 영역 (제목을 클릭 가능한 링크로 변경)
 const rightContent = [
-    "### today",
+    `### [[${dailyFileName}|today]]`,
     `![[${dailyFileName}#🎯 오늘의 목표]]`,
     "",
     "---",
     "",
-    "### this week",
+    `### [[${year} 주간 목표|this week]]`,
     `![[${year} 주간 목표#${week}]]`,
     "",
     "---",
     "",
-    "### this month",
+    `### [[${year} 월간 목표|this month]]`,
     `![[${year} 월간 목표#${month}]]`
 ].join("\n");
-
 // 7. 화면 렌더링
 await MarkdownRenderer.render(app, leftContent, leftCol, dv.current().file.path, comp);
 await MarkdownRenderer.render(app, rightContent, rightCol, dv.current().file.path, comp);
 ```
 
-# 📊 통합 기록 대시보드
+# 📊 통합 기록 
 ```dataviewjs
 
 window.currentTrackerType =

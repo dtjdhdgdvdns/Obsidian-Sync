@@ -44,3 +44,14 @@
     text-decoration-color: var(--text-normal) !important;
     opacity: 0.85;
 }
+
+/* 대제목(today, this week 등) 링크의 밑줄 제거 */
+.notion-dashboard h3 a.internal-link {
+    text-decoration: none !important;
+    color: var(--text-normal) !important;
+}
+
+.notion-dashboard h3 a.internal-link:hover {
+    text-decoration: none !important;
+    opacity: 0.8;
+}
