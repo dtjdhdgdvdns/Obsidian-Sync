@@ -3,6 +3,7 @@ cssclasses:
   - notion-dashboard
 obsidianUIMode: preview
 ---
+![Tumblr GIF|3000](https://64.media.tumblr.com/66522a20558abefc80d516a37d43025d/baf6ba927a80922d-45/s640x960/565c2203e2bf9677bbc868d3361f39472f111a2e.gifv)
 
 # 👋 환영합니다, 내 공간
 
