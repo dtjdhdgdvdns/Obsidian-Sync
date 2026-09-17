@@ -24,7 +24,7 @@ const week = moment().format("W[주차]");
 const month = moment().format("M[월]");
 
 // 2. 오늘 일기장 찾기
-const dailyPage = dv.pages().find(p => p.file.name.startsWith(todayStr));
+const dailyPage = dv.pages('"Diary/Daily daiary"').find(p => p.file.name.startsWith(todayStr));
 const dailyFileName = dailyPage ? dailyPage.file.name : `${todayStr} 일기`;
 
 // 3. quick links 전용 노션 스타일 자동 주입 (점 제거, 세리프 폰트, 텍스트 밑줄)
