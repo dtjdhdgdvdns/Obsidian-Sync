@@ -1,6 +1,7 @@
 ---
 banner: https://i.pinimg.com/736x/c3/df/65/c3df65aa5b99dc05d099e5cfb48dda7c.jpg
 banner_position: 100
+obsidianUIMode: preview
 ---
 
 ---
