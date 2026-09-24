@@ -36,10 +36,6 @@
 
 
 
-.workspace-split.mod-root .view-content.has-banner {
-  background-color: transparent;
-}
-
 .pp-banner img {
     width: 100%;
     max-width: 100%;
@@ -567,6 +563,7 @@ body.is-mobile .pp-cover {
   .metadata-container:not(.in-canvas, .in-popover) .pp-cover.right {
     max-height: var(--cover-max-height-top-bottom);
     margin-bottom: var(--pp-cover-gap);
+    grid-row: unset;
   }
 
   .metadata-container:not(.in-canvas, .in-popover) .pp-cover.initial.left .pp-cover-image,
@@ -1298,6 +1295,8 @@ body:not(.show-hidden-properties) .hover-popover .metadata-property.is-empty.pp-
   font-size: 0;
 }
 
+
+
 .has-property-formatting:focus-within .pp-formatted-value-overlay  {
   display: none;
 }
@@ -1868,12 +1867,6 @@ button.longtext-color-button:hover {
 
 
 
-.mb-input:focus-within,
-.mb-input:target,
-.mb-input-wrapper:target,
-.mb-slider-input:active {
-  background: red;
-}
 
 
 .pp-formatted-value-overlay {
@@ -1985,3 +1978,23 @@ button.cover-has-format {
   border-radius: 4px;
 }
 
+
+
+
+
+
+.metadata-property button.pp-property-select-button {
+  margin: 0 0 0 6px;
+  background-color: transparent;
+  box-shadow: none;
+  padding: 0;
+  --icon-size: 1.1em;
+  color: inherit;
+  height: unset;
+  vertical-align: middle;
+  opacity: 0.5;
+}
+
+.metadata-property button.pp-property-select-button:hover {
+  opacity: 1;
+}
